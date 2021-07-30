@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.trade.service.dao.TradeDAO">
+
+<resultMap type="com.test.trade.vo.CustomVO" id="CustomMap">
+<result column="BUSI_NUM" property="busiNum"/>
+<result column="CUSTOM" property="custom"/>
+<result column="SHORT" property="shortt"/>
+<result column="CEO" property="ceo"/>
+<result column="CHARGE_PERSON" property="chargePerson"/>
+<result column="BUSI_CONDITION" property="busiCondition"/>
+<result column="ITEM" property="item"/>
+<result column="POST_NUM" property="postNum"/>
+<result column="ADDR1" property="addr1"/>
+<result column="ADDR2" property="addr2"/>
+<result column="TEL" property="tel"/>
+<result column="FAX" property="fax"/>
+<result column="HOMEPAGE" property="homePage"/>
+<result column="CO_YN" property="coYn"/>
+<result column="FOREIGN_YN" property="foreignYn"/>
+<result column="TAX_YN" property="taxYn"/>
+<result column="COUNTRY_ENG" property="countryEng"/>
+<result column="COUNTRY_KOR" property="countryKor"/>
+<result column="SPECIAL_RELATION" property="specialRelation"/>
+<result column="TRADE_STOP" property="tradeStop"/>
+<result column="CONTRACT_PERIOD_S" property="contractPeriodS"/>
+<result column="CONTRACT_PERIOD_E" property="contractPeriodE"/>
+<result column="REGI_INFO_MAN" property="regiInfoMan"/>
+<result column="REGI_INFO_DATE" property="regiInfoDate"/>
+<result column="MODI_INFO_MANN" property="modiInfoMan"/>
+<result column="MODI_INFO_DATE" property="modiInfoDate"/>
+<collection property="accountVO" resultMap="AccountMap" />
+</resultMap>
+
+<resultMap type="com.test.trade.vo.AccountVO" id="AccountMap">
+<result column="BUSI_NUM" property="busiNum"/>
+<result column="FACTORY" property="factory"/>
+<result column="TRADE_BANK" property="tradeBank"/>
+<result column="ACCOUNT_NUM" property="accountNum"/>
+</resultMap>
+	<select resultType="customVO" id="getCustom" resultMap="CustomMap"> 
+	SELECT BUSI_NUM , CUSTOM
+	FROM TRADE_CUSTOM
+	WHERE BUSI_NUM LIKE ('%'||#{busiNum}||'%') or (CUSTOM LIKE '%'||#{custom}||'%')
+
+	</select>
+	<select resultType="customVO" id="getCustom1" resultMap="CustomMap"> 
+	SELECT BUSI_NUM , CUSTOM
+	FROM TRADE_CUSTOM
+	WHERE BUSI_NUM LIKE '%'||#{busiNum}||'%' 
+
+	</select>
+	<select resultType="customVO" id="getCustom2" resultMap="CustomMap"> 
+	SELECT BUSI_NUM , CUSTOM
+	FROM TRADE_CUSTOM
+	WHERE  CUSTOM LIKE '%'||#{custom}||'%'
+
+	</select>
+	<!-- /*거래처 하나만불러오기*/ -->
+	<select resultType="customVO" id="getoneCustom" resultMap="CustomMap"> 
+	SELECT c.busi_num,custom,short,ceo,charge_person,busi_condition,item,
+	post_num,addr1,addr2,tel,fax,homepage,co_yn,foreign_yn,tax_yn,country_eng,country_kor,special_relation,
+	trade_stop,contract_period_s,contract_period_e,regi_info_man,regi_info_date,modi_info_mann,modi_info_date,factory,
+	trade_bank,account_num
+	FROM TRADE_CUSTOM c, TRADE_ACCOUNT a
+	WHERE CUSTOM = #{custom} AND a.busi_num = c.busi_num
+
+	</select> 
+	<!-- insert join -->
+	<insert id="insertInfo">
+	insert  into trade_custom(busi_num,custom,short,ceo,charge_person,busi_condition,item,
+	post_num,addr1,addr2,tel,fax,homepage,co_yn,foreign_yn,tax_yn,country_kor,special_relation,
+	trade_stop,contract_period_s,contract_period_e,regi_info_man,regi_info_date,modi_info_mann,modi_info_date)
+values(#{busiNum},#{custom},#{shortt},#{ceo},#{chargePerson},#{busiCondition},#{item},#{postNum},#{addr1},#{addr2},
+#{tel},#{fax},#{homePage},#{coYn},#{foreignYn},#{taxYn},#{countryKor},#{specialRelation},#{tradeStop},#{contractPeriodS},#{contractPeriodE}
+,#{regiInfoMan},to_date(#{regiInfoDate},'YYYY-MM-DD HH24:MI:SS'),#{modiInfoMan},to_date(#{modiInfoDate},'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+<!-- 정보업데이트 -->
+<update id="updateInfo">
+UPDATE TRADE_CUSTOM
+SET BUSI_NUM = #{busiNum},
+CUSTOM = #{custom},
+short = #{shortt},
+ceo = #{ceo},
+CHARGE_PERSON = #{chargePerson},
+BUSI_CONDITION = #{busiCondition},
+item = #{item},
+addr1 = #{addr1},
+addr2 = #{addr2},
+tel = #{tel},
+fax = #{fax},
+HOMEPAGE = #{homePage},
+CO_YN = #{coYn},
+FOREIGN_YN = #{foreignYn},
+TAX_YN = #{taxYn},
+<!-- COUNTRY_ENG = #{countryEng}, -->
+COUNTRY_KOR = #{countryKor},
+SPECIAL_RELATION = #{specialRelation},
+TRADE_STOP = #{tradeStop},
+CONTRACT_PERIOD_S = #{contractPeriodS},
+CONTRACT_PERIOD_E = #{contractPeriodE},
+REGI_INFO_MAN = #{regiInfoMan},
+MODI_INFO_MANN = #{modiInfoMan},
+MODI_INFO_DATE = to_date(#{modiInfoDate},'YYYY-MM-DD HH24:MI:SS')
+WHERE BUSI_NUM = #{busiNum}
+
+</update>
+
+<delete id="deleteInfo">
+DELETE from TRADE_CUSTOM
+WHERE BUSI_NUM = #{busiNum}
+</delete>
+  <!-- <select resultType="int" id="infocheck" >
+  SELECT COUNT(*) FROM TRADE_CUSTOM
+  WHERE BUSI_NUM = #{busiNum}
+  </select> -->
+</mapper>

@@ -1,0 +1,72 @@
+
+* {
+   margin: 0px;
+   padding: 0px;
+   list-style: none;
+   text-decoration: none;
+   border-collapse: collapse;
+}
+
+.container{
+	
+	min-width:1100px;
+	height:1000px;
+	background:yellow;
+}
+.container div{
+	float:left;
+}
+.trade_nav{
+	width:35%;
+	height:100%;
+	background:;
+	
+}
+.custom_search{
+	border: 1px solid #444444;
+	width:100%;
+	height:200px;
+	margin-bottom:10px;
+}
+.custom_search_text{
+	width:121px;
+	height:26px;
+}
+.custom_list{
+	width:100%;
+	height:700px;
+}
+.custom_list table tr td{
+	border: 1px solid #444444;
+	width:220px;
+	height:30px;
+	text-align:center;
+}
+.custom_info{
+width:65%;
+}
+.menu_bar{
+	width:100%;
+height:60px;
+text-align:right;
+background:aqua;
+	}
+.menu_button{
+	width:100px;
+	height:50px;
+	}
+	
+.custom_info_detail table{
+	width:800px;
+}
+.account_table tr td{
+	border: 1px solid #444444;
+		text-align:center;
+	
+}
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+    appearance: none;
+}
+	
